@@ -1,0 +1,22 @@
+# Data files
+*.csv
+*.parquet
+*.feather
+
+# Model artifacts
+*.pkl
+*.joblib
+*.rds
+
+# Notebook outputs
+.ipynb_checkpoints/
+*_files/
+*.html
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+./notebooks/*
