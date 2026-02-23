@@ -177,14 +177,46 @@ def aggregate_installments(inst: pd.DataFrame) -> pd.DataFrame:
 
 
 # =====================================================
-# 5. FINAL DATASET ASSEMBLY
+# 5. SUPPLEMENTARY DATA AGGREGATION (NEW)
+# =====================================================
+
+def aggregate_pos_cash(pos: pd.DataFrame) -> pd.DataFrame:
+    """
+    Aggregate point of sale and cash loans data.
+    """
+    agg = pos.groupby("SK_ID_CURR").agg(
+        POS_COUNT=("SK_ID_PREV", "count"),
+        POS_COMPLETED_COUNT=("NAME_CONTRACT_STATUS", lambda x: (x == "Completed").sum()),
+        POS_DPD_SUM=("SK_DPD", "sum"),
+        POS_DPD_DEF_SUM=("SK_DPD_DEF", "sum")
+    )
+    return agg.reset_index()
+
+
+def aggregate_credit_card(cc: pd.DataFrame) -> pd.DataFrame:
+    """
+    Aggregate credit card balance data.
+    """
+    agg = cc.groupby("SK_ID_CURR").agg(
+        CC_COUNT=("SK_ID_PREV", "count"),
+        CC_DRAWINGS_SUM=("AMT_DRAWINGS_CURRENT", "sum"),
+        CC_BALANCE_MEAN=("AMT_BALANCE", "mean"),
+        CC_RECEIVABLE_SUM=("AMT_RECIVABLE", "sum")
+    )
+    return agg.reset_index()
+
+
+# =====================================================
+# 6. FINAL DATASET ASSEMBLY
 # =====================================================
 
 def join_aggregates(
     app: pd.DataFrame,
     bureau_agg: pd.DataFrame,
     prev_agg: pd.DataFrame,
-    inst_agg: pd.DataFrame
+    inst_agg: pd.DataFrame,
+    pos_agg: pd.DataFrame = None,
+    cc_agg: pd.DataFrame = None
 ) -> pd.DataFrame:
     """
     Join all aggregated supplementary datasets to application data.
@@ -192,6 +224,10 @@ def join_aggregates(
     app = app.merge(bureau_agg, on="SK_ID_CURR", how="left")
     app = app.merge(prev_agg, on="SK_ID_CURR", how="left")
     app = app.merge(inst_agg, on="SK_ID_CURR", how="left")
+    if pos_agg is not None:
+        app = app.merge(pos_agg, on="SK_ID_CURR", how="left")
+    if cc_agg is not None:
+        app = app.merge(cc_agg, on="SK_ID_CURR", how="left")
     return app
 
 
