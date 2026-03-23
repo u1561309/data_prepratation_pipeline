@@ -8,6 +8,7 @@ This repository contains a reproducible data preparation pipeline and an advance
 - [Modeling Process](#modeling-process)
 - [Model Performance](#model-performance)
 - [Results](#results)
+- [Model Card](#model-card)
 
 ## Introduction
 
@@ -82,3 +83,16 @@ The final architecture selected is an `XGBClassifier` parameterized globally by 
 Executing this parameterized model broadly over the fully unified demographic and supplemental datasets achieved a robust, fully-generalized CV **AUC of ~0.754**. 
 
 This trained framework was then tasked onto the independent `application_test.csv` dataset, and raw submission probabilities were effectively pushed and formatted inside `/data_preparation/submission.csv` for Kaggle evaluation scoring.
+
+---
+
+## Model Card
+
+For a comprehensive evaluation of the final model's business impact, explainability, and ethical considerations, please refer to [`Model_Card.ipynb`](Model_Card.ipynb).
+
+### Executive Summary
+
+- **Business Recommendation:** We recommend utilizing the tuned XGBoost model with an optimal decision threshold of 0.70. This threshold maximizes expected business profit by balancing potential default losses (-$10,000) against successfully repaid loan profits (+$2,000).
+- **Financial Impact:** Approving loans only when the predicted default probability is below 0.70 mitigates financial risk while continuing to greenlight profitable loans.
+- **Explainability & Important Features:** SHAP analysis indicates that normalized external credit scores (`EXT_SOURCE_2` & `EXT_SOURCE_3`), applicant age (`DAYS_BIRTH`), and payment rate ratios are the strongest drivers of predictions.
+- **Fairness & Key Caveats:** The model relies heavily on external credit indicators, potentially disadvantaging applicants with thin credit histories. Additionally, demographic differences in approval rates exist (e.g., by education or gender) and must be monitored for fair lending compliance.

@@ -20,3 +20,6 @@ __pycache__/
 # OS files
 .DS_Store
 ./notebooks/*submission.csv
+
+# local files
+.local
