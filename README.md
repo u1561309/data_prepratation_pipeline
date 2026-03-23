@@ -2,7 +2,12 @@
 
 This repository contains a reproducible data preparation pipeline and an advanced predictive machine learning sequence for the Home Credit Default Risk dataset. The ultimate goal is to process messy financial data accurately and construct models capable of classifying which clients are likely to default on their loan payments.
 
+## Business Problem
+
+Home Credit faces the challenge of accurately assessing the repayment ability of loan applicants who have little or no traditional credit history. Many potential borrowers are underserved or excluded by conventional scoring systems, while others may be approved despite a high risk of default. The business problem is to reduce loan default risk while increasing access to credit for creditworthy applicants by using alternative data sources to make fair, consistent, data-driven lending decisions.
+
 ## Table of Contents
+- [Business Problem](#business-problem)
 - [Introduction](#introduction)
 - [Data Preparation](#data-preparation)
 - [Modeling Process](#modeling-process)
